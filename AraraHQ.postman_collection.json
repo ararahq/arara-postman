@@ -1,0 +1,577 @@
+{
+  "info": {
+    "name": "AraraHQ API",
+    "description": "Official API collection for AraraHQ — the developer-first WhatsApp API for Latin America.\n\nBase URL: https://api.ararahq.com\nDocs: https://docs.ararahq.com\n\n## Authentication\n\nAll requests use Bearer token auth with your API key:\n```\nAuthorization: Bearer ara_live_...\n```\n\nSet the `api_key` variable in the Variables tab and all requests inherit it automatically.\n\nUse `ara_test_` keys for sandbox mode.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "ararahq"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{api_key}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "https://api.ararahq.com",
+      "type": "string"
+    },
+    {
+      "key": "api_key",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Messages",
+      "description": "Send and track WhatsApp messages.",
+      "item": [
+        {
+          "name": "Send Template Message",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Idempotency-Key", "value": "{{$guid}}" }
+            ],
+            "url": { "raw": "{{base_url}}/v1/messages", "host": ["{{base_url}}"], "path": ["v1", "messages"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"receiver\": \"whatsapp:+5511999999999\",\n  \"templateName\": \"hello_world\",\n  \"variables\": [\"João\"]\n}"
+            }
+          }
+        },
+        {
+          "name": "Send Freeform Message",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "{{base_url}}/v1/messages", "host": ["{{base_url}}"], "path": ["v1", "messages"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"receiver\": \"whatsapp:+5511999999999\",\n  \"body\": \"Hello from Arara!\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Send Message with Media",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "{{base_url}}/v1/messages", "host": ["{{base_url}}"], "path": ["v1", "messages"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"receiver\": \"whatsapp:+5511999999999\",\n  \"templateName\": \"invoice_ready\",\n  \"variables\": [\"João\", \"Janeiro\"],\n  \"media_url\": \"https://example.com/invoice.pdf\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Send Scheduled Message",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "{{base_url}}/v1/messages", "host": ["{{base_url}}"], "path": ["v1", "messages"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"receiver\": \"whatsapp:+5511999999999\",\n  \"templateName\": \"reminder\",\n  \"variables\": [\"João\"],\n  \"scheduledAt\": \"2026-04-10T10:00:00Z\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get Message Status",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/v1/messages/:internalId", "host": ["{{base_url}}"], "path": ["v1", "messages", ":internalId"], "variable": [{ "key": "internalId", "value": "ara_msg_xxxxx" }] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Templates",
+      "description": "Manage WhatsApp message templates.",
+      "item": [
+        {
+          "name": "List Templates",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/v1/templates", "host": ["{{base_url}}"], "path": ["v1", "templates"] }
+          }
+        },
+        {
+          "name": "Create Template",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "{{base_url}}/v1/templates", "host": ["{{base_url}}"], "path": ["v1", "templates"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"order_confirmation\",\n  \"category\": \"UTILITY\",\n  \"body\": \"Hi {{1}}, your order #{{2}} has been confirmed!\",\n  \"language\": \"en\",\n  \"samples\": {\n    \"1\": \"John\",\n    \"2\": \"12345\"\n  }\n}"
+            }
+          }
+        },
+        {
+          "name": "Get Template",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/v1/templates/:id", "host": ["{{base_url}}"], "path": ["v1", "templates", ":id"], "variable": [{ "key": "id", "value": "" }] }
+          }
+        },
+        {
+          "name": "Get Template Status",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/v1/templates/:id/status", "host": ["{{base_url}}"], "path": ["v1", "templates", ":id", "status"], "variable": [{ "key": "id", "value": "" }] }
+          }
+        },
+        {
+          "name": "Get Template Analytics",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/v1/templates/:id/analytics", "host": ["{{base_url}}"], "path": ["v1", "templates", ":id", "analytics"], "variable": [{ "key": "id", "value": "" }] }
+          }
+        },
+        {
+          "name": "Delete Template",
+          "request": {
+            "method": "DELETE",
+            "url": { "raw": "{{base_url}}/v1/templates/:id", "host": ["{{base_url}}"], "path": ["v1", "templates", ":id"], "variable": [{ "key": "id", "value": "" }] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Campaigns",
+      "description": "Bulk messaging campaigns.",
+      "item": [
+        {
+          "name": "Create Campaign",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Idempotency-Key", "value": "{{$guid}}" }
+            ],
+            "url": { "raw": "{{base_url}}/v1/campaigns", "host": ["{{base_url}}"], "path": ["v1", "campaigns"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Welcome Campaign\",\n  \"templateName\": \"hello_world\",\n  \"contacts\": [\n    {\n      \"to\": \"whatsapp:+5511999999999\",\n      \"variables\": [\"João\"]\n    },\n    {\n      \"to\": \"whatsapp:+5511988888888\",\n      \"variables\": [\"Maria\"]\n    }\n  ]\n}"
+            }
+          }
+        },
+        {
+          "name": "List Campaigns",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/v1/campaigns", "host": ["{{base_url}}"], "path": ["v1", "campaigns"] }
+          }
+        },
+        {
+          "name": "Get Campaign",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/v1/campaigns/:id", "host": ["{{base_url}}"], "path": ["v1", "campaigns", ":id"], "variable": [{ "key": "id", "value": "" }] }
+          }
+        },
+        {
+          "name": "Estimate Campaign Cost",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/v1/campaigns/estimate?templateName=hello_world&count=100", "host": ["{{base_url}}"], "path": ["v1", "campaigns", "estimate"], "query": [{ "key": "templateName", "value": "hello_world" }, { "key": "count", "value": "100" }] }
+          }
+        },
+        {
+          "name": "Import Campaign (CSV)",
+          "request": {
+            "method": "POST",
+            "url": { "raw": "{{base_url}}/v1/campaigns/import", "host": ["{{base_url}}"], "path": ["v1", "campaigns", "import"] },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "file", "type": "file", "src": "" },
+                { "key": "templateName", "value": "hello_world", "type": "text" },
+                { "key": "name", "value": "CSV Campaign", "type": "text" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Conversations",
+      "description": "Manage inbound conversations and replies.",
+      "item": [
+        {
+          "name": "List Conversations",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/v1/conversations?page=0&size=20", "host": ["{{base_url}}"], "path": ["v1", "conversations"], "query": [{ "key": "page", "value": "0" }, { "key": "size", "value": "20" }] }
+          }
+        },
+        {
+          "name": "Get Conversation Messages",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/v1/conversations/:conversationId/messages?page=0&size=50", "host": ["{{base_url}}"], "path": ["v1", "conversations", ":conversationId", "messages"], "query": [{ "key": "page", "value": "0" }, { "key": "size", "value": "50" }], "variable": [{ "key": "conversationId", "value": "" }] }
+          }
+        },
+        {
+          "name": "Reply to Conversation",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "{{base_url}}/v1/conversations/:conversationId/reply", "host": ["{{base_url}}"], "path": ["v1", "conversations", ":conversationId", "reply"], "variable": [{ "key": "conversationId", "value": "" }] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"body\": \"Thanks for reaching out! How can I help?\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Send Template via Conversation",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "{{base_url}}/v1/conversations/send-template", "host": ["{{base_url}}"], "path": ["v1", "conversations", "send-template"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"phoneNumber\": \"+5511999999999\",\n  \"templateName\": \"follow_up\",\n  \"variables\": [\"João\"]\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Contacts",
+      "description": "Manage your contact list.",
+      "item": [
+        {
+          "name": "List Contacts",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/v1/contacts?page=0&size=20", "host": ["{{base_url}}"], "path": ["v1", "contacts"], "query": [{ "key": "page", "value": "0" }, { "key": "size", "value": "20" }] }
+          }
+        },
+        {
+          "name": "Get Contact by Phone",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/v1/contacts/:phone", "host": ["{{base_url}}"], "path": ["v1", "contacts", ":phone"], "variable": [{ "key": "phone", "value": "+5511999999999" }] }
+          }
+        },
+        {
+          "name": "Batch Upsert Contacts",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "{{base_url}}/v1/contacts/batch", "host": ["{{base_url}}"], "path": ["v1", "contacts", "batch"] },
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  {\n    \"name\": \"João Silva\",\n    \"phone\": \"+5511999999999\",\n    \"email\": \"joao@example.com\",\n    \"attributes\": { \"plan\": \"pro\" }\n  },\n  {\n    \"name\": \"Maria Santos\",\n    \"phone\": \"+5511988888888\"\n  }\n]"
+            }
+          }
+        },
+        {
+          "name": "Contact Statistics",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/v1/contacts/stats", "host": ["{{base_url}}"], "path": ["v1", "contacts", "stats"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "AI Brain",
+      "description": "Knowledge base and AI agent.",
+      "item": [
+        {
+          "name": "Add Knowledge",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "{{base_url}}/v1/brain/knowledge", "host": ["{{base_url}}"], "path": ["v1", "brain", "knowledge"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"content\": \"Our business hours are Monday to Friday, 9am to 6pm.\",\n  \"category\": \"FAQ\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Upload Knowledge File",
+          "request": {
+            "method": "POST",
+            "url": { "raw": "{{base_url}}/v1/brain/knowledge/upload", "host": ["{{base_url}}"], "path": ["v1", "brain", "knowledge", "upload"] },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "file", "type": "file", "src": "" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Search Knowledge Base",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/v1/brain/search?q=business hours", "host": ["{{base_url}}"], "path": ["v1", "brain", "search"], "query": [{ "key": "q", "value": "business hours" }] }
+          }
+        },
+        {
+          "name": "List Knowledge Sources",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/v1/brain/sources", "host": ["{{base_url}}"], "path": ["v1", "brain", "sources"] }
+          }
+        },
+        {
+          "name": "Delete Knowledge Source",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "{{base_url}}/v1/brain/sources", "host": ["{{base_url}}"], "path": ["v1", "brain", "sources"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sourceId\": \"src_xxxxx\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Add Brain Rule",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "{{base_url}}/v1/brain/rules", "host": ["{{base_url}}"], "path": ["v1", "brain", "rules"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"rule\": \"Always respond in Portuguese\",\n  \"priority\": 1\n}"
+            }
+          }
+        },
+        {
+          "name": "List Brain Rules",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/v1/brain/rules", "host": ["{{base_url}}"], "path": ["v1", "brain", "rules"] }
+          }
+        },
+        {
+          "name": "Delete Brain Rule",
+          "request": {
+            "method": "DELETE",
+            "url": { "raw": "{{base_url}}/v1/brain/rules/:id", "host": ["{{base_url}}"], "path": ["v1", "brain", "rules", ":id"], "variable": [{ "key": "id", "value": "" }] }
+          }
+        },
+        {
+          "name": "Get Brain Audit Log",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/v1/brain/audit", "host": ["{{base_url}}"], "path": ["v1", "brain", "audit"] }
+          }
+        },
+        {
+          "name": "Get Brain Stats",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/v1/brain/stats", "host": ["{{base_url}}"], "path": ["v1", "brain", "stats"] }
+          }
+        },
+        {
+          "name": "Analyze Revenue",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "{{base_url}}/v1/brain/analyze/revenue", "host": ["{{base_url}}"], "path": ["v1", "brain", "analyze", "revenue"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"period\": \"last_30_days\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "API Keys",
+      "description": "Manage API keys.",
+      "item": [
+        {
+          "name": "List API Keys",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/v1/api-keys?mode=LIVE", "host": ["{{base_url}}"], "path": ["v1", "api-keys"], "query": [{ "key": "mode", "value": "LIVE" }] }
+          }
+        },
+        {
+          "name": "Create API Key",
+          "request": {
+            "method": "POST",
+            "url": { "raw": "{{base_url}}/v1/api-keys?mode=LIVE", "host": ["{{base_url}}"], "path": ["v1", "api-keys"], "query": [{ "key": "mode", "value": "LIVE" }] }
+          }
+        },
+        {
+          "name": "Reveal Sandbox Key",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/v1/api-keys/sandbox-reveal", "host": ["{{base_url}}"], "path": ["v1", "api-keys", "sandbox-reveal"] }
+          }
+        },
+        {
+          "name": "Revoke API Key",
+          "request": {
+            "method": "DELETE",
+            "url": { "raw": "{{base_url}}/v1/api-keys/:id", "host": ["{{base_url}}"], "path": ["v1", "api-keys", ":id"], "variable": [{ "key": "id", "value": "" }] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Phone Numbers",
+      "description": "List organization phone numbers.",
+      "item": [
+        {
+          "name": "List Numbers",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/v1/numbers", "host": ["{{base_url}}"], "path": ["v1", "numbers"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Console",
+      "description": "Wallet, billing, and metrics.",
+      "item": [
+        {
+          "name": "Get Wallet Balance",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/v1/console/wallet/balance", "host": ["{{base_url}}"], "path": ["v1", "console", "wallet", "balance"] }
+          }
+        },
+        {
+          "name": "Get Wallet Transactions",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/v1/console/wallet/transactions", "host": ["{{base_url}}"], "path": ["v1", "console", "wallet", "transactions"] }
+          }
+        },
+        {
+          "name": "Get Billing Status",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/v1/console/billing/status", "host": ["{{base_url}}"], "path": ["v1", "console", "billing", "status"] }
+          }
+        },
+        {
+          "name": "Get Metrics",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/v1/console/metrics", "host": ["{{base_url}}"], "path": ["v1", "console", "metrics"] }
+          }
+        },
+        {
+          "name": "Get Revenue Stats",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/v1/console/revenue-stats", "host": ["{{base_url}}"], "path": ["v1", "console", "revenue-stats"] }
+          }
+        },
+        {
+          "name": "List Console Messages",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/v1/console/messages", "host": ["{{base_url}}"], "path": ["v1", "console", "messages"] }
+          }
+        },
+        {
+          "name": "Get Console Message",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/v1/console/messages/:internalId", "host": ["{{base_url}}"], "path": ["v1", "console", "messages", ":internalId"], "variable": [{ "key": "internalId", "value": "" }] }
+          }
+        },
+        {
+          "name": "Check Test Message Eligibility",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/v1/console/test-message/eligibility", "host": ["{{base_url}}"], "path": ["v1", "console", "test-message", "eligibility"] }
+          }
+        },
+        {
+          "name": "Send Test Message",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "{{base_url}}/v1/console/test-message", "host": ["{{base_url}}"], "path": ["v1", "console", "test-message"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"receiver\": \"+5511999999999\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Webhooks",
+      "description": "Cart abandonment webhook.",
+      "item": [
+        {
+          "name": "Cart Abandoned Webhook",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "{{base_url}}/webhook/cart", "host": ["{{base_url}}"], "path": ["webhook", "cart"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cartId\": \"cart_123\",\n  \"customerId\": \"cust_456\",\n  \"customerPhone\": \"+5511999999999\",\n  \"items\": [\n    { \"name\": \"Widget\", \"price\": 49.90, \"quantity\": 2 }\n  ],\n  \"totalValue\": 99.80\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Public (No Auth)",
+      "description": "Public endpoints — no API key required.",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/health", "host": ["{{base_url}}"], "path": ["health"] }
+          }
+        }
+      ]
+    }
+  ]
+}
