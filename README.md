@@ -2,7 +2,9 @@
 
 [![Docs](https://img.shields.io/badge/Docs-docs.ararahq.com-orange)](https://docs.ararahq.com)
 
-Official Postman collection for the [AraraHQ API](https://ararahq.com). Test every endpoint without writing code.
+Official Postman collection for the [AraraHQ API](https://ararahq.com). Call every endpoint without writing code.
+
+AraraHQ: WhatsApp for Brazilian companies. Team inbox with AI, campaigns and systems connected through the API.
 
 ## Quick Start
 
@@ -36,13 +38,13 @@ All requests use Bearer token auth with your API key:
 Authorization: Bearer ara_live_...
 ```
 
-Use `ara_test_` keys for sandbox mode — same endpoints, no real messages sent.
+Every key is a production key (`ara_live_...`): requests send real messages.
 
 ## Get Your API Key
 
-1. Sign up at [ararahq.com](https://ararahq.com)
-2. Go to Console → API Keys
-3. Create a LIVE or TEST key
+1. Open the AraraHQ dashboard at [app.ararahq.com](https://app.ararahq.com)
+2. Go to API Keys
+3. Create a key
 
 ## License
 

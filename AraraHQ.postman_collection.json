@@ -1,7 +1,7 @@
 {
   "info": {
     "name": "AraraHQ API",
-    "description": "Official API collection for AraraHQ — the developer-first WhatsApp API for Latin America.\n\nBase URL: https://api.ararahq.com\nDocs: https://docs.ararahq.com\n\n## Authentication\n\nAll requests use Bearer token auth with your API key:\n```\nAuthorization: Bearer ara_live_...\n```\n\nSet the `api_key` variable in the Variables tab and all requests inherit it automatically.\n\nUse `ara_test_` keys for sandbox mode.",
+    "description": "Postman collection for the AraraHQ API. AraraHQ: WhatsApp for Brazilian companies. Team inbox with AI, campaigns and systems connected through the API.\n\nBase URL: https://api.ararahq.com\nDocs: https://docs.ararahq.com\n\n## Authentication\n\nAll requests use Bearer token auth with your API key:\n```\nAuthorization: Bearer ara_live_...\n```\n\nSet the `api_key` variable in the Variables tab and all requests inherit it automatically.\n\nEvery key is a production key (`ara_live_...`): requests send real messages.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "ararahq"
   },
